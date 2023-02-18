@@ -1,7 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import { Header, PropertyCard } from "./components";
+import ReactDatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 const App = () => {
+  const [location, setLocation] = useState(null);
+  const [when, setWhen] = useState(null);
+  const [price, setPrice] = useState(null);
+  const [propertyType, setPropertyType] = useState(null);
+
+  const [startDate, setStartDate] = useState(new Date());
+
   return (
     <div className="bg-[#F7F7FD]">
       <Header />
@@ -13,19 +22,26 @@ const App = () => {
           <input
             className="h-12 w-64 border rounded-lg"
             placeholder="       Search with Search Bar"
+            onChange={(e) => {
+              console.log(e.target.value);
+            }}
           />
         </div>
-        <div className="bg-white py-4 px-8 flex justify-center items-center xl:space-x-32 lg:space-x-16 md:space-x-5">
+        <div className="bg-white mb-10 py-4 px-8 flex justify-center items-center xl:space-x-28 lg:space-x-16 md:space-x-5">
           <div>
             <div className="text-gray-400 text-base md:text-sm">Location</div>
-            <div className="text-gray-900 text-lg md:text-base font-bold">
+            <div className="text-gray-900 lg:text-xl md:text-base font-bold">
               New York, USA
             </div>
           </div>
           <div>
             <div className="text-gray-400">When</div>
             <div className="text-gray-900 text-lg font-bold">
-              Select Move -in Date
+              <ReactDatePicker
+                placeholderText="Select Move -in Date"
+                selected={startDate}
+                onChange={(date) => setStartDate(date)}
+              />
             </div>
           </div>
           <div>
