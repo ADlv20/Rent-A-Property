@@ -19,6 +19,8 @@ const App = () => {
   const [startDate, setStartDate] = useState(new Date());
   const dbData = db.properties;
 
+  const [isSearchClicked, setIsSearchClicked] = useState(false);
+
   return (
     <div className="bg-[#F7F7FD]">
       <Header />
@@ -92,32 +94,49 @@ const App = () => {
               <option value="Bungalow">Bungalow</option>
             </select>
           </div>
-          <button className="border rounded py-3 px-7 text-white bg-indigo-500 hover:bg-indigo-200 text-base">
+          <button
+            className="border rounded py-3 px-7 text-white bg-indigo-500 hover:bg-indigo-200 text-base"
+            onClick={(e) => setIsSearchClicked(true)}
+          >
             Search
           </button>
         </div>
         <div className="flex flex-wrap">
-          {dbData
-            .filter(
-              (item) =>
-                item.location === location &&
-                parseInt(item.price) <= price &&
-                item.property_type === propertyType &&
-                item.when <= startDate.toDateString()
-            )
-            .map((item) => (
-              <PropertyCard
-                key={item.id}
-                propertyName={item.location}
-                address={item.address}
-                price={item.price}
-                beds={item.beds}
-                baths={item.baths}
-                space={item.area}
-                spaceunit={"sqm"}
-                image={item.photo}
-              />
-            ))}
+          {isSearchClicked === true
+            ? dbData
+                .filter(
+                  (item) =>
+                    item.location === location &&
+                    parseInt(item.price) <= price &&
+                    item.property_type === propertyType &&
+                    item.when <= startDate.toDateString()
+                )
+                .map((item) => (
+                  <PropertyCard
+                    key={item.id}
+                    propertyName={item.location}
+                    address={item.address}
+                    price={item.price}
+                    beds={item.beds}
+                    baths={item.baths}
+                    space={item.area}
+                    spaceunit={"sqm"}
+                    image={item.photo}
+                  />
+                ))
+            : dbData.map((item) => (
+                <PropertyCard
+                  key={item.id}
+                  propertyName={item.location}
+                  address={item.address}
+                  price={item.price}
+                  beds={item.beds}
+                  baths={item.baths}
+                  space={item.area}
+                  spaceunit={"sqm"}
+                  image={item.photo}
+                />
+              ))}
         </div>
       </div>
     </div>
